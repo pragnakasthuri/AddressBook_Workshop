@@ -109,4 +109,33 @@ public class Person {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    /**
+     * Overriding equals method for comparing the first name
+     * @param o - of type Object
+     * @return true or false
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return this.firstName.equalsIgnoreCase(person.getFirstName());
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip=" + zip +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
+

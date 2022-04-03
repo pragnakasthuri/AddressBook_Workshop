@@ -15,15 +15,13 @@ public class AddressBook {
     /**
      * Creating new array list for storing the person details
      */
-    private static List<Person> addressBook = new ArrayList();
-
+    private List<Person> addressBook = new ArrayList();
 
     /**
      * Creating addNewContact method to add contacts into list
-     *
      * @param scanner - taking scanner object
      */
-    public static void addNewContact(Scanner scanner) {
+    public void addNewContact(Scanner scanner) {
         System.out.println("Please enter the details :");
         System.out.println("First Name :");
         String firstName = scanner.next();
@@ -48,13 +46,37 @@ public class AddressBook {
         /**
          * Adding the person details to address book
          */
-        addressBook.add(person);
+        this.addNewContact(person);
+    }
+
+    /**
+     * Creating addNewContact method to address book
+     * @param person
+     */
+    public void addNewContact(Person person) {
+        if (person != null) {
+            this.addressBook.add(person);
+        }
+    }
+
+    /**
+     * Creating getContact method to get the name if the given name is present
+     * @param personName - name given by user to search and edit
+     * @return - optional person
+     * @throws AddressBookException
+     */
+    public Person getContact(String personName) throws AddressBookException {
+        Optional<Person> optionalPerson = this.addressBook.stream().filter(person -> person.getFirstName().equalsIgnoreCase(personName)).findFirst();
+        if (optionalPerson.isPresent()) {
+            return optionalPerson.get();
+        }
+        throw new AddressBookException("No suitable contact found", AddressBookException.ExceptionType.NO_SUCH_CONTACT_FOUND);
     }
 
     /**
      * This method is used to give the user edit option based on the first name
      */
-    private static void editContact() {
+    public void editContact() {
         System.out.println("Enter the person name you want to edit: ");
         String personName = scanner.next();
 
@@ -111,13 +133,11 @@ public class AddressBook {
     }
 
     /**
-     * @param scanner - taking scanner object
-     *                Method for giving the user to select he option and perform acc to it
+     * @param userChoice - taking user choice
+     * Method to act according to the user choice
+     * @throws AddressBookException if invalid choice passed
      */
-    private static void readUserInput(Scanner scanner) {
-        System.out.println("Please select one option");
-        System.out.println("1. Add new contact \n2. Edit contact \n3. List contacts ");
-        int userChoice = scanner.nextInt();
+    public void readUserInput(int userChoice)throws AddressBookException{
         switch (userChoice) {
             case 1:
                 addNewContact(scanner);
@@ -129,15 +149,17 @@ public class AddressBook {
             case 3:
                 listContacts();
                 break;
-            default:
-                System.out.println("Invalid option. Please select valid");
+            default: {
+                System.out.println("Invalid option. Please select valid option");
+                throw new AddressBookException("Invalid option. Please select valid", AddressBookException.ExceptionType.INVALID_USER_CHOICE_EXCEPTION);
+            }
         }
     }
 
     /**
      * Displaying the Person's Contact list
      */
-    private static void listContacts() {
+    public void listContacts() {
         for (Person person : addressBook) {
             System.out.println(person);
         }
@@ -145,14 +167,19 @@ public class AddressBook {
 
     /**
      * Main method for manipulating person class
-     *
      * @param args - default java param
      */
-    public static void main(String[] args) {
+    public void main(String[] args) {
         System.out.println("Welcome to Address Book System...!");
         String userChoice;
         do {
-            readUserInput(scanner);
+            System.out.println("Please select one option");
+            System.out.println("1. Add new contact \n2. Edit contact \n3. List contacts ");
+            try {
+                readUserInput(scanner.nextInt());
+            } catch (AddressBookException e) {
+                e.printStackTrace();
+            }
             System.out.println("Do you want to continue(Y/N) ?");
             userChoice = scanner.next();
         } while (userChoice.equalsIgnoreCase("Y"));

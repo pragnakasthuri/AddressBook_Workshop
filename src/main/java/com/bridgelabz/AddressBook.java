@@ -281,6 +281,9 @@ public class AddressBook {
         Iterator<Person> iterator = addressBook.iterator();
         while (iterator.hasNext()) {
             Person person = iterator.next();
+            /**
+             * Checking if the gaven name is in match with the name in the list
+             */
             if (contactName.equals(person.getFirstName())) {
                 iterator.remove();
                 System.out.println("The contact got deleted");

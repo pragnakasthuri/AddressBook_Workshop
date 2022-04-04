@@ -129,7 +129,7 @@ public class AddressBookValidationUtil {
      * @param email - email of person
      * @return true or false
      */
-    public static boolean isValidPEmail(String email) throws AddressBookException {
+    public static boolean isValidEmail(String email) throws AddressBookException {
         /**
          * Regular expression for Email validation
          */

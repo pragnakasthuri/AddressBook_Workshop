@@ -1,5 +1,8 @@
 package com.bridgelabz;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -22,23 +25,121 @@ public class AddressBook {
      * @param scanner - taking scanner object
      */
     public void addNewContact(Scanner scanner) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter the details :");
+        String firstName = "";
         System.out.println("First Name :");
-        String firstName = scanner.next();
+        while(true) {
+            try {
+                firstName = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidFirstName(firstName)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage()+", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("Last Name :");
-        String lastName = scanner.next();
+        String lastName = "";
+        while(true) {
+            try {
+                lastName = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidLastName(lastName)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage() + ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("Address :");
-        String address = scanner.next();
+        String address = "";
+        while(true) {
+            try {
+                address = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidAddress(address)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage() + ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("City :");
-        String city = scanner.next();
+        String city = "";
+        while(true) {
+            try {
+                city = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidCity(city)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage() + ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("State :");
-        String state = scanner.next();
+        String state = "";
+        while(true) {
+            try {
+                state = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidState(state)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage()+ ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("Zip :");
-        long zip = scanner.nextLong();
+        String zip = "";
+        while(true) {
+            try {
+                zip = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidZip(zip)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage() + ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("Phone Number :");
-        long phoneNumber = scanner.nextLong();
+        String phoneNumber = "";
+        while(true) {
+            try {
+                phoneNumber = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidPhoneNumber(phoneNumber)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage() + ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
         System.out.println("Email :");
-        String email = scanner.next();
+        String email = "";
+        while(true) {
+            try {
+                email = bufferedReader.readLine();
+                if (AddressBookValidationUtil.isValidEmail(email)) {
+                    break;
+                }
+            } catch (AddressBookException e) {
+                System.err.println(e.getMessage() + ", Please enter again");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
         /**
          * Creating Contact object and passing all the details as params
          */
@@ -112,12 +213,12 @@ public class AddressBook {
                 break;
             case 5:
                 System.out.println("Please enter new zip :");
-                long zip = scanner.nextLong();
+                String zip = scanner.next();
                 person.setZip(zip);
                 break;
             case 6:
                 System.out.println("Please enter new phone number :");
-                long phoneNumber = scanner.nextLong();
+                String phoneNumber = scanner.next();
                 person.setPhoneNumber(phoneNumber);
                 break;
             case 7:
@@ -149,6 +250,9 @@ public class AddressBook {
             case 3:
                 listContacts();
                 break;
+            case 4:
+                deleteContact();
+                break;
             default: {
                 System.out.println("Invalid option. Please select valid option");
                 throw new AddressBookException("Invalid option. Please select valid", AddressBookException.ExceptionType.INVALID_USER_CHOICE_EXCEPTION);
@@ -160,8 +264,28 @@ public class AddressBook {
      * Displaying the Person's Contact list
      */
     public void listContacts() {
+        if (this.addressBook.isEmpty()) {
+            System.out.println("No contacts found!");
+        }
         for (Person person : addressBook) {
             System.out.println(person);
+        }
+    }
+
+    /**
+     * Method for deleting the contact for the given name as input
+     */
+    public void deleteContact() {
+        System.out.println("Please enter the name of the person u want to delete :");
+        String contactName = scanner.next();
+        Iterator<Person> iterator = addressBook.iterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
+            if (contactName.equals(person.getFirstName())) {
+                iterator.remove();
+                System.out.println("The contact got deleted");
+            } else
+                System.out.println("Please enter the correct name: ");
         }
     }
 
@@ -169,14 +293,15 @@ public class AddressBook {
      * Main method for manipulating person class
      * @param args - default java param
      */
-    public void main(String[] args) {
+    public static void main(String[] args) {
         System.out.println("Welcome to Address Book System...!");
+        AddressBook addressBook =  new AddressBook();
         String userChoice;
         do {
             System.out.println("Please select one option");
-            System.out.println("1. Add new contact \n2. Edit contact \n3. List contacts ");
+            System.out.println("1. Add new contact \n2. Edit contact \n3. List contacts \n4. Delete contact ");
             try {
-                readUserInput(scanner.nextInt());
+                addressBook.readUserInput(scanner.nextInt());
             } catch (AddressBookException e) {
                 e.printStackTrace();
             }

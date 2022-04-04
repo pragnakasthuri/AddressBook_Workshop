@@ -15,8 +15,8 @@ public class Person {
     private String address;
     private String city;
     private String state;
-    private long zip;
-    private long phoneNumber;
+    private String zip;
+    private String phoneNumber;
     private String email;
 
     /**
@@ -31,7 +31,7 @@ public class Person {
      * @param email
      */
     Person(String firstName, String lastName, String address, String city,
-            String state, long zip, long phoneNumber, String email){
+            String state, String zip, String phoneNumber, String email){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -86,19 +86,19 @@ public class Person {
         this.state = state;
     }
 
-    public long getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(long zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

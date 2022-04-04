@@ -19,7 +19,7 @@ public class AddressBookTest {
     public void givenNewContact_ShouldAddSuccessfully() {
         AddressBook addressBook = new AddressBook();
         Person person = new Person("Pragna", "Kasthuri", "Residency", "Hyderabad", "Telangan",
-                                    505452, 9876543210L, "pragna@gmail.com");
+                                    "505452", "9876543210", "pragna@gmail.com");
         addressBook.addNewContact(person);
         Person person1 = null;
         try {
@@ -43,7 +43,7 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         try {
             addressBook.addNewContact(new Person("Pragna", "Kasthuri", "Residency", "Hyderabad", "Telangan",
-                    505452, 9876543210L, "pragna@gmail.com"));
+                    "505452", "9876543210", "pragna@gmail.com"));
             Person person = addressBook.getContact("Pragna");
             Assertions.assertTrue("Pragna".equals(person.getFirstName()));
         } catch (AddressBookException e) {}
@@ -187,7 +187,7 @@ public class AddressBookTest {
     public void givenEmail_WhenProper_ShouldReturnTrue() {
         boolean result = false;
         try {
-            result = AddressBookValidationUtil.isValidPEmail("pragna@gmail.com");
+            result = AddressBookValidationUtil.isValidEmail("pragna@gmail.com");
         } catch (AddressBookException e) {}
         Assertions.assertTrue(result);
     }
@@ -196,7 +196,7 @@ public class AddressBookTest {
     public void givenEmail_WhenNotProper_ShouldReturnFalse() {
         boolean result = false;
         try {
-            result = AddressBookValidationUtil.isValidPEmail("bhjhes*.C..comds");
+            result = AddressBookValidationUtil.isValidEmail("bhjhes*.C..comds");
         } catch (AddressBookException e) {
             Assertions.assertEquals(AddressBookException.ExceptionType.INVALID_EMAIL, e.type);
         }

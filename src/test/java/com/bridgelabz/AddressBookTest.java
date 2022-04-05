@@ -20,10 +20,10 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         Person person = new Person("Pragna", "Kasthuri", "Residency", "Hyderabad", "Telangan",
                                     "505452", "9876543210", "pragna@gmail.com");
-        addressBook.addNewContact(person);
+        addressBook.addNewContact(person, "Office");
         Person person1 = null;
         try {
-            person1 = addressBook.getContact("Pragna");
+            person1 = addressBook.getContact("Pragna", "Office");
         } catch (AddressBookException e) {}
         Assertions.assertTrue(person.equals(person1));
     }
@@ -32,9 +32,9 @@ public class AddressBookTest {
     public void givenPersonName_whenInvalid_ShouldThrowException() {
         AddressBook addressBook = new AddressBook();
         try {
-            addressBook.getContact("Pragna");
+            addressBook.getContact("Pragna", "Office");
         } catch (AddressBookException e) {
-            Assertions.assertEquals(AddressBookException.ExceptionType.NO_SUCH_CONTACT_FOUND, e.type);
+            Assertions.assertEquals(AddressBookException.ExceptionType.NO_SUCH_CONTACT_TYPE_FOUND, e.type);
         }
     }
 
@@ -43,8 +43,8 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         try {
             addressBook.addNewContact(new Person("Pragna", "Kasthuri", "Residency", "Hyderabad", "Telangan",
-                    "505452", "9876543210", "pragna@gmail.com"));
-            Person person = addressBook.getContact("Pragna");
+                    "505452", "9876543210", "pragna@gmail.com"), "Office");
+            Person person = addressBook.getContact("Pragna", "Office");
             Assertions.assertTrue("Pragna".equals(person.getFirstName()));
         } catch (AddressBookException e) {}
     }
